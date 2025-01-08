@@ -1,6 +1,4 @@
 public class Vehicle{
-    private String brand;
-    private String Model;
     private int year;
     private boolean isAvailable;
     private int price;
@@ -8,8 +6,6 @@ public class Vehicle{
     private int Days;
 
     public Vehicle(){
-        brand = " ";
-        Model = " ";
         year = 0;
         isAvailable = true;
         price = 0;
@@ -18,27 +14,13 @@ public class Vehicle{
     }
 
     public Vehicle(String brand, String model, int year, boolean isAvailable, int price) {
-        this.brand = brand;
-        Model = model;
         this.year = year;
         this.isAvailable = isAvailable;
         this.price = price;
         this.imagePath = imagePath;
         this.Days = Days;
     }
-    
-    public String getBrand() {
-        return brand;
-    }
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-    public String getModel() {
-        return Model;
-    }
-    public void setModel(String model) {
-        Model = model;
-    }
+
     public int getYear() {
         return year;
     }
@@ -76,7 +58,7 @@ public class Vehicle{
 
     @Override
     public String toString() {
-        return "Vehicle [brand=" + brand + ", Model=" + Model + ", year=" + year + ", isAvailable=" + isAvailable
+        return ", year=" + year + ", isAvailable=" + isAvailable
                 + ", price=" + price + ", Days=" + Days + "]";
     }
 
