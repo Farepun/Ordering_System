@@ -1,10 +1,8 @@
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainMenu {
 
@@ -17,20 +15,16 @@ public class MainMenu {
         cars[3] = new Vehicle("Chevrolet", "Malibu", 2020, true, 160);
         cars[4] = new Vehicle("Nissan", "Altima", 2019, true, 120);
 
-        // Create some customers using the provided details
-        Customer[] customers = new Customer[3];
-        customers[0] = new Customer("040318010901", "Alice Brown", "90 , Jalan Kelaman Abadi", "12141241f", "0127864624");
-        customers[1] = new Customer("040318010902", "Bob White", "123 , Jalan Newville", "12341241g", "01174561283");
-        customers[2] = new Customer("040318010903", "Charlie Green", "45 , Jalan Seaview", "12441241h", "0126817515");
-
         // Create the main frame
         JFrame frame = new JFrame("Car Rental System");
-        frame.setSize(600, 400);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Create the top panel
+        // Create the top panel with light grey background
         JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(Color.LIGHT_GRAY); // Set light grey background
+
         JLabel titleLabel = new JLabel("Car Rental");
         JButton loginButton = new JButton("Login");
 
@@ -42,14 +36,122 @@ public class MainMenu {
         topPanel.add(titleLabel, BorderLayout.WEST);
         topPanel.add(loginButton, BorderLayout.EAST);
 
-        // Text area to display vehicles
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        // Add a border to the top panel (Optional)
+        topPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Welcome to Car Rental", TitledBorder.LEFT, TitledBorder.TOP));
+
+        // Center panel with CardLayout for images
+        JPanel imagePanel = new JPanel(); 
+        CardLayout cardLayout = new CardLayout();
+        imagePanel.setLayout(cardLayout); // Use CardLayout here
+
+        // Set a lighter grey background for the imagePanel
+        imagePanel.setBackground(new Color(220, 220, 220)); 
+
+        for (int i = 0; i < cars.length; i++) {
+            // Construct the file path for the image
+            String imagePath = "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg"; // Update the file name as needed
+
+            // Create ImageIcon from file path
+            ImageIcon carImageIcon = new ImageIcon(imagePath);
+            
+            // Scale the image to fit the JLabel size (550x400 to have a clearer and resized image)
+            Image img = carImageIcon.getImage(); // Get the Image object
+            Image scaledImg = img.getScaledInstance(550, 400, Image.SCALE_SMOOTH); // Resize the image
+            
+            // Create a new ImageIcon with the scaled image
+            ImageIcon scaledIcon = new ImageIcon(scaledImg);
+
+            // Create a JLabel with the scaled image
+            JLabel carImage = new JLabel(scaledIcon);
+            carImage.setPreferredSize(new Dimension(800, 400)); // Ensure the image fills the center area
+            carImage.setHorizontalAlignment(SwingConstants.CENTER);
+
+            // Add action to display car details when the image is clicked
+            int carIndex = i;
+            carImage.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Car Details:\n" +
+                                    "Brand: " + cars[carIndex].getBrand() + "\n" +
+                                    "Model: " + cars[carIndex].getModel() + "\n" +
+                                    "Year: " + cars[carIndex].getYear() + "\n" +
+                                    "Available: " + (cars[carIndex].isAvailable() ? "Yes" : "No") + "\n" +
+                                    "Price: $" + cars[carIndex].getPrice() + " per day\n"
+                    );
+                }
+            });
+
+            imagePanel.add(carImage, "Card" + i); // Add each image as a card
+        }
+
+        // Left and Right arrow buttons
+        JButton leftArrow = new JButton("<");
+        JButton rightArrow = new JButton(">");
+
+        leftArrow.setFont(new Font("Arial", Font.BOLD, 20));
+        rightArrow.setFont(new Font("Arial", Font.BOLD, 20));
+
+        leftArrow.setFocusPainted(false);
+        rightArrow.setFocusPainted(false);
+
+        leftArrow.setOpaque(false);
+        rightArrow.setOpaque(false);
+
+        leftArrow.setContentAreaFilled(false);
+        rightArrow.setContentAreaFilled(false);
+
+        leftArrow.setBorderPainted(false);
+        rightArrow.setBorderPainted(false);
+
+        // Add navigation functionality
+        leftArrow.addActionListener(new ActionListener() {
+            int currentIndex = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentIndex = (currentIndex - 1 + cars.length) % cars.length;
+                cardLayout.show(imagePanel, "Card" + currentIndex);
+            }
+        });
+
+        rightArrow.addActionListener(new ActionListener() {
+            int currentIndex = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentIndex = (currentIndex + 1) % cars.length;
+                cardLayout.show(imagePanel, "Card" + currentIndex);
+            }
+        });
+
+        // Center panel to design image scrolling that use arrow
+        // Overlay panel for arrows
+        JPanel arrowPanel = new JPanel(null);
+        arrowPanel.setOpaque(false);
+        arrowPanel.setLayout(null);
+
+        // Position the arrows
+        leftArrow.setBounds(10, 200, 50, 50);
+        rightArrow.setBounds(740, 200, 50, 50);
+
+        arrowPanel.add(leftArrow);
+        arrowPanel.add(rightArrow);
+
+        // Combine the image panel and arrows into one layered panel
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(800, 400));
+        imagePanel.setBounds(0, 0, 800, 400);
+        arrowPanel.setBounds(0, 0, 800, 400);
+
+        layeredPane.add(imagePanel, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(arrowPanel, JLayeredPane.PALETTE_LAYER);
 
         // Panel for buttons (with FlowLayout for centering)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(Color.LIGHT_GRAY); // Set light grey background
 
+        // South Panel
         // Buttons
         JButton viewAllButton = new JButton("View All Vehicles");
         JButton checkOrderButton = new JButton("Check Order ID");
@@ -63,183 +165,17 @@ public class MainMenu {
 
         // Add components to frame
         frame.add(topPanel, BorderLayout.NORTH); // Add the top panel
-        frame.add(scrollPane, BorderLayout.CENTER); // Add the text area
+        frame.add(layeredPane, BorderLayout.CENTER); // Add the carousel to the center
         frame.add(buttonPanel, BorderLayout.SOUTH); // Add the button panel
 
-        // List to hold orders (for storing rental orders)
-        List<Order> orders = new ArrayList<>();
-
-        // Button actions
-        viewAllButton.addActionListener(e -> {
-            String[] carOptions = new String[cars.length];
-            for (int i = 0; i < cars.length; i++) {
-                carOptions[i] = cars[i].getBrand() + " " + cars[i].getModel();
-            }
-
-            String selectedCar = (String) JOptionPane.showInputDialog(
-                    frame,
-                    "Select a car to view details:",
-                    "View All Vehicles",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    carOptions,
-                    carOptions[0]
-            );
-
-            if (selectedCar != null) {
-                for (Vehicle car : cars) {
-                    if ((car.getBrand() + " " + car.getModel()).equals(selectedCar)) {
-                        JOptionPane.showMessageDialog(
-                                frame,
-                                "Car Details:\n" +
-                                        "Brand: " + car.getBrand() + "\n" +
-                                        "Model: " + car.getModel() + "\n" +
-                                        "Year: " + car.getYear() + "\n" +
-                                        "Available: " + (car.isAvailable() ? "Yes" : "No") + "\n" +
-                                        "Price: $" + car.getPrice() + " per day\n"
-                        );
-                        break;
-                    }
-                }
-            }
-        });
-
-        checkOrderButton.addActionListener(e -> {
-            // Let user enter Order ID
-            String orderId = JOptionPane.showInputDialog(frame, "Enter Order ID to view details:");
-
-            if (orderId != null && !orderId.trim().isEmpty()) {
-                // Search for the order by ID
-                boolean orderFound = false;
-                for (Order order : orders) {
-                    if (order.getOrderId().equals(orderId)) {
-                        // Show the order details
-                        JOptionPane.showMessageDialog(frame,
-                                "Order Details:\n" +
-                                        "Order ID: " + order.getOrderId() + "\n" +
-                                        "Customer: " + order.getCustomer().getName() + "\n" +
-                                        "Vehicle: " + order.getVehicle().getBrand() + " " + order.getVehicle().getModel() + "\n" +
-                                        "Rental Period: " + order.getRentalStart() + " to " + order.getRentalEnd() + "\n" +
-                                        "Total Cost: $" + order.RentCalculation()
-                        );
-                        orderFound = true;
-                        break;
-                    }
-                }
-
-                if (!orderFound) {
-                    JOptionPane.showMessageDialog(frame, "Order ID not found.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(frame, "Please enter a valid Order ID.");
-            }
-        });
-
-        rentVehicleButton.addActionListener(e -> {
-            // Let user choose a customer
-            String[] customerOptions = new String[customers.length];
-            for (int i = 0; i < customers.length; i++) {
-                customerOptions[i] = customers[i].getName();
-            }
-
-            String selectedCustomerName = (String) JOptionPane.showInputDialog(
-                    frame,
-                    "Select a customer to create an order:",
-                    "Rent a Vehicle",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    customerOptions,
-                    customerOptions[0]
-            );
-
-            if (selectedCustomerName != null) {
-                // Let user choose a vehicle to rent
-                String[] availableVehicles = new String[cars.length];
-                int availableCount = 0;
-                for (Vehicle car : cars) {
-                    if (car.isAvailable()) {
-                        availableVehicles[availableCount] = car.getBrand() + " " + car.getModel();
-                        availableCount++;
-                    }
-                }
-
-                String selectedVehicle = (String) JOptionPane.showInputDialog(
-                        frame,
-                        "Select a vehicle to rent:",
-                        "Rent a Vehicle",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        availableVehicles,
-                        availableVehicles[0]
-                );
-
-                if (selectedVehicle != null) {
-                    Vehicle selectedCar = null;
-                    for (Vehicle car : cars) {
-                        if ((car.getBrand() + " " + car.getModel()).equals(selectedVehicle)) {
-                            selectedCar = car;
-                            break;
-                        }
-                    }
-
-                    if (selectedCar != null) {
-                        // Let user choose rental dates
-                        String startDateStr = JOptionPane.showInputDialog(frame, "Enter rental start date (YYYY-MM-DD):");
-                        String endDateStr = JOptionPane.showInputDialog(frame, "Enter rental end date (YYYY-MM-DD):");
-
-                        try {
-                            LocalDate rentalStart = LocalDate.parse(startDateStr);
-                            LocalDate rentalEnd = LocalDate.parse(endDateStr);
-
-                            // Check if the rental dates are valid
-                            if (!rentalStart.isBefore(rentalEnd)) {
-                                JOptionPane.showMessageDialog(frame, "Start date must be before the end date.");
-                                return;
-                            }
-
-                            // Check if the vehicle is available for the selected rental period
-                            boolean isAvailableForPeriod = true;
-                            for (Order order : orders) {
-                                if (order.getVehicle() == selectedCar) {
-                                    if ((rentalStart.isBefore(order.getRentalEnd()) && rentalStart.isAfter(order.getRentalStart())) ||
-                                            (rentalEnd.isBefore(order.getRentalEnd()) && rentalEnd.isAfter(order.getRentalStart()))) {
-                                        isAvailableForPeriod = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!isAvailableForPeriod) {
-                                JOptionPane.showMessageDialog(frame, "The vehicle is not available for the selected dates.");
-                            } else {
-                                // Create an order
-                                String orderId = "ORD" + (orders.size() + 1);  // Generating order ID
-                                Order newOrder = new Order(orderId, customers[0], selectedCar, rentalStart, rentalEnd);
-                                orders.add(newOrder);
-
-                                // Show rental summary
-                                double rentalCost = newOrder.RentCalculation();
-                                JOptionPane.showMessageDialog(frame, "Rental Order Created!\n" +
-                                        "Order ID: " + newOrder.getOrderId() + "\n" +
-                                        "Vehicle: " + selectedCar.getBrand() + " " + selectedCar.getModel() + "\n" +
-                                        "Rental Period: " + rentalStart + " to " + rentalEnd + "\n" +
-                                        "Total Cost: $" + rentalCost);
-                            }
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(frame, "Invalid date format. Please use YYYY-MM-DD.");
-                        }
-                    }
-                }
-            }
-        });
-
+        // Add button actions
+        loginButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Later change here for login function"));
+        viewAllButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Feature: View All Vehicles"));
+        checkOrderButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Feature: Check Order ID"));
+        rentVehicleButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Feature: Rent a Vehicle"));
         exitButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(frame, "Exiting the system. Goodbye!");
             System.exit(0);
-        });
-
-        loginButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Login functionality is not implemented yet.");
         });
 
         // Show frame
