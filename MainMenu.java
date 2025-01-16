@@ -180,5 +180,7 @@ public class MainMenu {
 
         // Show frame
         frame.setVisible(true);
+        //test
+        
     }
 }
