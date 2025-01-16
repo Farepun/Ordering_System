@@ -13,7 +13,7 @@ public class Vehicle{
         Days = 0;
     }
 
-    public Vehicle(String brand, String model, int year, boolean isAvailable, int price) {
+    public Vehicle(int year, boolean isAvailable, int price, String imagePath, int Days) {
         this.year = year;
         this.isAvailable = isAvailable;
         this.price = price;

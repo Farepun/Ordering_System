@@ -9,7 +9,7 @@ public  class Motorcycle extends Vehicle {
         model = " ";
     }
     
-    public Motorcycle(String brand, String model, int year, boolean isAvailable, int price, String imagePath, int Days) {
+    public Motorcycle( int year, boolean isAvailable, int price, String imagePath, int Days , String brand, String model) {
         super();
         this.brand = brand;
         this.model = model;

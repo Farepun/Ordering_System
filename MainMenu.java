@@ -1,186 +1,233 @@
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainMenu {
-
     public static void main(String[] args) {
-        // Create a list of vehicles
-        Vehicle[] cars = new Vehicle[5];
-        cars[0] = new Vehicle("Honda", "Civic", 2023, true, 150);
-        cars[1] = new Vehicle("Toyota", "Corolla", 2022, true, 130);
-        cars[2] = new Vehicle("Ford", "Focus", 2021, false, 140);
-        cars[3] = new Vehicle("Chevrolet", "Malibu", 2020, true, 160);
-        cars[4] = new Vehicle("Nissan", "Altima", 2019, true, 120);
+        // Dummy data for cars, motorcycles, and trucks
+        Car[] cars = new Car[5];
+        Motorcycle[] motor = new Motorcycle[5];
+        Truck[] trucks = new Truck[5];
+
+        cars[0] = new Car(2020, true, 150, "images/toyota_camry.jpg", 5, "Toyota", "Camry");
+        cars[1] = new Car(2019, false, 120, "images/honda_civic.jpg", 10, "Honda", "Civic");
+        cars[2] = new Car(2021, true, 100, "images/ford_focus.jpg", 3, "Ford", "Focus");
+        cars[3] = new Car(2018, true, 130, "images/chevrolet_malibu.jpg", 7, "Chevrolet", "Malibu");
+        cars[4] = new Car(2022, false, 120, "images/nissan_altima.jpg", 2, "Nissan", "Altima");
+
+        motor[0] = new Motorcycle(2020, true, 90, "images/harley_street750.jpg", 4, "Harley-Davidson", "Street 750");
+        motor[1] = new Motorcycle(2019, true, 85, "images/kawasaki_ninja400.jpg", 6, "Kawasaki", "Ninja 400");
+        motor[2] = new Motorcycle(2021, false, 80, "images/yamaha_yzfr3.jpg", 8, "Yamaha", "YZF-R3");
+        motor[3] = new Motorcycle(2022, true, 75, "images/ducati_panigalev2.jpg", 1, "Ducati", "Panigale V2");
+        motor[4] = new Motorcycle(2020, true, 86, "images/honda_cbr500r.jpg", 5, "Honda", "CBR500R");
+
+        trucks[0] = new Truck(2020, true, 200, "images/ford_f150.jpg", 10, "Ford", "F-150");
+        trucks[1] = new Truck(2021, true, 250, "images/chevrolet_silverado.jpg", 12, "Chevrolet", "Silverado");
+        trucks[2] = new Truck(2022, false, 280, "images/ram_1500.jpg", 15, "Ram", "1500");
+        trucks[3] = new Truck(2020, true, 200, "images/toyota_tundra.jpg", 3, "Toyota", "Tundra");
+        trucks[4] = new Truck(2021, true, 230, "images/gmc_sierra.jpg", 9, "GMC", "Sierra");
 
         // Create the main frame
-        JFrame frame = new JFrame("Car Rental System");
+        JFrame frame = new JFrame("Vehicle Rental System");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Create the top panel with light grey background
+        // Create the top panel with the title and login button
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.LIGHT_GRAY); // Set light grey background
-
-        JLabel titleLabel = new JLabel("Car Rental");
+        topPanel.setBackground(Color.LIGHT_GRAY);
+        JLabel titleLabel = new JLabel("Car Rental", SwingConstants.LEFT);
         JButton loginButton = new JButton("Login");
-
-        // Style the title label
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
-        // Add components to the top panel
         topPanel.add(titleLabel, BorderLayout.WEST);
         topPanel.add(loginButton, BorderLayout.EAST);
 
-        // Add a border to the top panel (Optional)
-        topPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Welcome to Car Rental", TitledBorder.LEFT, TitledBorder.TOP));
+        // Create the center panel (can be left empty or used for other components)
+        // Create the center panel for scrolling images 
+        // "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
+// Create the center panel for scrolling images
+JPanel centerPanel = new JPanel(new BorderLayout());
+centerPanel.setBackground(Color.WHITE);
 
-        // Center panel with CardLayout for images
-        JPanel imagePanel = new JPanel(); 
-        CardLayout cardLayout = new CardLayout();
-        imagePanel.setLayout(cardLayout); // Use CardLayout here
+// Create a panel to hold the images
+JPanel imagePanel = new JPanel();
+imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.X_AXIS));
 
-        // Set a lighter grey background for the imagePanel
-        imagePanel.setBackground(new Color(220, 220, 220)); 
+// Add images to the imagePanel with resizing
+String[] imagePaths = {
+        "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
+};
 
-        for (int i = 0; i < cars.length; i++) {
-            // Construct the file path for the image
-            String imagePath = "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg"; // Update the file name as needed
+// Define the desired image height and width
+int imageWidth = 1000;
+int imageHeight = 600;
 
-            // Create ImageIcon from file path
-            ImageIcon carImageIcon = new ImageIcon(imagePath);
-            
-            // Scale the image to fit the JLabel size (550x400 to have a clearer and resized image)
-            Image img = carImageIcon.getImage(); // Get the Image object
-            Image scaledImg = img.getScaledInstance(550, 400, Image.SCALE_SMOOTH); // Resize the image
-            
-            // Create a new ImageIcon with the scaled image
-            ImageIcon scaledIcon = new ImageIcon(scaledImg);
+// Add images and duplicate them for seamless looping
+for (String path : imagePaths) {
+    ImageIcon originalIcon = new ImageIcon(path); // Load the original image
+    Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+    ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-            // Create a JLabel with the scaled image
-            JLabel carImage = new JLabel(scaledIcon);
-            carImage.setPreferredSize(new Dimension(800, 400)); // Ensure the image fills the center area
-            carImage.setHorizontalAlignment(SwingConstants.CENTER);
+    JLabel imageLabel = new JLabel(scaledIcon);
+    imagePanel.add(imageLabel);
 
-            // Add action to display car details when the image is clicked
-            int carIndex = i;
-            carImage.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    JOptionPane.showMessageDialog(frame,
-                            "Car Details:\n" +
-                                    "Brand: " + cars[carIndex].getBrand() + "\n" +
-                                    "Model: " + cars[carIndex].getModel() + "\n" +
-                                    "Year: " + cars[carIndex].getYear() + "\n" +
-                                    "Available: " + (cars[carIndex].isAvailable() ? "Yes" : "No") + "\n" +
-                                    "Price: $" + cars[carIndex].getPrice() + " per day\n"
-                    );
-                }
-            });
+    // Duplicate the same image
+    JLabel duplicateImageLabel = new JLabel(scaledIcon);
+    imagePanel.add(duplicateImageLabel);
+}
 
-            imagePanel.add(carImage, "Card" + i); // Add each image as a card
+// Add the image panel to a scroll pane
+JScrollPane scrollPane = new JScrollPane(imagePanel);
+scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+scrollPane.getViewport().setOpaque(false);
+scrollPane.setOpaque(false);
+
+// Add the scroll pane to the center panel
+centerPanel.add(scrollPane, BorderLayout.CENTER);
+
+// Add scrolling animation (right to left)
+Timer timer = new Timer(30, new ActionListener() {
+    int scrollPosition = 0;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        scrollPosition++;
+        if (scrollPosition >= imageWidth) {
+            scrollPosition = 0; // Reset to start for seamless loop
         }
+        scrollPane.getHorizontalScrollBar().setValue(scrollPosition);
+    }
+});
 
-        // Left and Right arrow buttons
-        JButton leftArrow = new JButton("<");
-        JButton rightArrow = new JButton(">");
+// Start the timer for animation
+timer.start();
+  
 
-        leftArrow.setFont(new Font("Arial", Font.BOLD, 20));
-        rightArrow.setFont(new Font("Arial", Font.BOLD, 20));
 
-        leftArrow.setFocusPainted(false);
-        rightArrow.setFocusPainted(false);
+        // Create the south panel with buttons
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        southPanel.setBackground(Color.LIGHT_GRAY);
 
-        leftArrow.setOpaque(false);
-        rightArrow.setOpaque(false);
-
-        leftArrow.setContentAreaFilled(false);
-        rightArrow.setContentAreaFilled(false);
-
-        leftArrow.setBorderPainted(false);
-        rightArrow.setBorderPainted(false);
-
-        // Add navigation functionality
-        leftArrow.addActionListener(new ActionListener() {
-            int currentIndex = 0;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentIndex = (currentIndex - 1 + cars.length) % cars.length;
-                cardLayout.show(imagePanel, "Card" + currentIndex);
-            }
-        });
-
-        rightArrow.addActionListener(new ActionListener() {
-            int currentIndex = 0;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentIndex = (currentIndex + 1) % cars.length;
-                cardLayout.show(imagePanel, "Card" + currentIndex);
-            }
-        });
-
-        // Center panel to design image scrolling that use arrow
-        // Overlay panel for arrows
-        JPanel arrowPanel = new JPanel(null);
-        arrowPanel.setOpaque(false);
-        arrowPanel.setLayout(null);
-
-        // Position the arrows
-        leftArrow.setBounds(10, 200, 50, 50);
-        rightArrow.setBounds(740, 200, 50, 50);
-
-        arrowPanel.add(leftArrow);
-        arrowPanel.add(rightArrow);
-
-        // Combine the image panel and arrows into one layered panel
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(800, 400));
-        imagePanel.setBounds(0, 0, 800, 400);
-        arrowPanel.setBounds(0, 0, 800, 400);
-
-        layeredPane.add(imagePanel, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.add(arrowPanel, JLayeredPane.PALETTE_LAYER);
-
-        // Panel for buttons (with FlowLayout for centering)
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(Color.LIGHT_GRAY); // Set light grey background
-
-        // South Panel
-        // Buttons
-        JButton viewAllButton = new JButton("View All Vehicles");
-        JButton checkOrderButton = new JButton("Check Order ID");
-        JButton rentVehicleButton = new JButton("Rent a Vehicle");
+        JButton viewAllButton = new JButton("View all Vehicle");
+        JButton myOrderButton = new JButton("My Order");
+        JButton rentNowButton = new JButton("Rent Now");
         JButton exitButton = new JButton("Exit");
 
-        buttonPanel.add(viewAllButton);
-        buttonPanel.add(checkOrderButton);
-        buttonPanel.add(rentVehicleButton);
-        buttonPanel.add(exitButton);
+        // Add action listeners for buttons
+        viewAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create an array to store vehicle options
+                String[] vehicleOptions = new String[cars.length + motor.length + trucks.length];
 
-        // Add components to frame
-        frame.add(topPanel, BorderLayout.NORTH); // Add the top panel
-        frame.add(layeredPane, BorderLayout.CENTER); // Add the carousel to the center
-        frame.add(buttonPanel, BorderLayout.SOUTH); // Add the button panel
+                // Populate the array with vehicle options
+                int index = 0;
+                for (int i = 0; i < cars.length; i++) {
+                    vehicleOptions[index++] = cars[i].getBrand() + " " + cars[i].getModel() + " - [CARS]";
+                }
+                for (int i = 0; i < motor.length; i++) {
+                    vehicleOptions[index++] = motor[i].getBrand() + " " + motor[i].getModel() + " - [MOTOR]";
+                }
+                for (int i = 0; i < trucks.length; i++) {
+                    vehicleOptions[index++] = trucks[i].getBrand() + " " + trucks[i].getModel() + " - [TRUCK]";
+                }
 
-        // Add button actions
-        loginButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Later change here for login function"));
-        viewAllButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Feature: View All Vehicles"));
-        checkOrderButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Feature: Check Order ID"));
-        rentVehicleButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Feature: Rent a Vehicle"));
-        exitButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Exiting the system. Goodbye!");
-            System.exit(0);
+                // Display a dialog to select a vehicle
+                String selectedVehicle = (String) JOptionPane.showInputDialog(
+                        frame,
+                        "Select a vehicle to view details:",
+                        "View All Vehicles",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        vehicleOptions,
+                        vehicleOptions[0]
+                );
+
+                // Check if a vehicle was selected
+                if (selectedVehicle != null) {
+                    StringBuilder vehicleDetails = new StringBuilder();
+
+                    // Find the selected vehicle
+                    for (int i = 0; i < cars.length; i++) {
+                        if (selectedVehicle.equals(cars[i].getBrand() + " " + cars[i].getModel()+ " - [CARS]")) {
+                            // Display car details
+                            vehicleDetails.append("Car Details:\n");
+                            vehicleDetails.append("Brand: ").append(cars[i].getBrand()).append("\n");
+                            vehicleDetails.append("Model: ").append(cars[i].getModel()).append("\n");
+                            vehicleDetails.append("Year: ").append(cars[i].getYear()).append("\n");
+                            vehicleDetails.append("Price: RM").append(cars[i].getPrice()).append("\n");
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < motor.length; i++) {
+                        if (selectedVehicle.equals(motor[i].getBrand() + " " + motor[i].getModel()+ " - [MOTOR]")) {
+                            // Display motorcycle details
+                            vehicleDetails.append("Motorcycle Details:\n");
+                            vehicleDetails.append("Brand: ").append(motor[i].getBrand()).append("\n");
+                            vehicleDetails.append("Model: ").append(motor[i].getModel()).append("\n");
+                            vehicleDetails.append("Year: ").append(motor[i].getYear()).append("\n");
+                            vehicleDetails.append("Price: RM").append(motor[i].getPrice()).append("\n");
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < trucks.length; i++) {
+                        if (selectedVehicle.equals(trucks[i].getBrand() + " " + trucks[i].getModel()+ " - [TRUCK]")) {
+                            // Display truck details
+                            vehicleDetails.append("Truck Details:\n");
+                            vehicleDetails.append("Brand: ").append(trucks[i].getBrand()).append("\n");
+                            vehicleDetails.append("Model: ").append(trucks[i].getModel()).append("\n");
+                            vehicleDetails.append("Year: ").append(trucks[i].getYear()).append("\n");
+                            vehicleDetails.append("Price: RM").append(trucks[i].getPrice()).append("\n");
+                            break;
+                        }
+                    }
+
+                    // Show vehicle details in a message dialog
+                    JOptionPane.showMessageDialog(frame, vehicleDetails.toString(), "Vehicle Details", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
         });
 
-        // Show frame
+        myOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Logic to view my orders
+                JOptionPane.showMessageDialog(frame, "Viewing my orders...", "My Orders", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        rentNowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Logic to rent a vehicle
+                JOptionPane.showMessageDialog(frame, "Renting a vehicle...", "Rent Now", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Exit the application
+                System.exit(0);
+            }
+        });
+
+        // Add buttons to the south panel
+        southPanel.add(viewAllButton);
+        southPanel.add(myOrderButton);
+        southPanel.add(rentNowButton);
+        southPanel.add(exitButton);
+
+        // Add panels to the frame
+        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(centerPanel, BorderLayout.CENTER);
+        frame.add(southPanel, BorderLayout.SOUTH);
+
+        // Set frame visibility
         frame.setVisible(true);
-        //test
-        
     }
 }
+

@@ -9,8 +9,8 @@ public  class Car extends Vehicle {
         model = " ";
     }
     
-    public Car(String brand, String model, int year, boolean isAvailable, int price, String imagePath, int Days) {
-        super();
+    public Car(int year, boolean isAvailable, int price, String imagePath, int Days, String brand, String model) {
+        super(year, isAvailable, price, imagePath, Days); // Pass values to the Vehicle constructor
         this.brand = brand;
         this.model = model;
     }
@@ -32,6 +32,7 @@ public  class Car extends Vehicle {
     public String toString(){
         return  "Brand: " + brand + " Model: " + model + super.toString();
     }
+  
     
 
     

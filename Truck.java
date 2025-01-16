@@ -9,7 +9,7 @@ public class Truck extends Vehicle {
         model = " ";
     }
 
-    public Truck(String brand, String model, int year, boolean isAvailable, int price, String imagePath, int Days) {
+    public Truck(int year, boolean isAvailable, int price, String imagePath, int Days, String brand, String model ) {
         super();
         this.brand = brand;
         this.model = model;
