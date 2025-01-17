@@ -2,8 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu {
+    static List<Order> orderList = new ArrayList<>();      
     public static void main(String[] args) {
         // Show login screen
         LoginFrame loginFrame = new LoginFrame();
@@ -27,23 +30,23 @@ public class MainMenu {
         Motorcycle[] motor = new Motorcycle[5];
         Truck[] trucks = new Truck[5];
 
-        cars[0] = new Car(2020, true, 150, "images/toyota_camry.jpg", 5, "Toyota", "Camry");
+        cars[0] = new Car(2020, true, 150, "image/kereta/toyota camry (1).jpg", 5, "Toyota", "Camry");
         cars[1] = new Car(2019, false, 120, "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg", 10, "Honda", "Civic");
-        cars[2] = new Car(2021, true, 100, "images/ford_focus.jpg", 3, "Ford", "Focus");
-        cars[3] = new Car(2018, true, 130, "images/chevrolet_malibu.jpg", 7, "Chevrolet", "Malibu");
-        cars[4] = new Car(2022, false, 120, "images/nissan_altima.jpg", 2, "Nissan", "Altima");
+        cars[2] = new Car(2021, true, 100, "image/kereta/ford focus (1).jpg", 3, "Ford", "Focus");
+        cars[3] = new Car(2018, true, 130, "image/kereta/Chevrolet Malibu (1).jpg", 7, "Chevrolet", "Malibu");
+        cars[4] = new Car(2022, false, 120, "image/kereta/Nissan Altima (1).jpg", 2, "Nissan", "Altima");
 
-        motor[0] = new Motorcycle(2020, true, 90, "images/harley_street750.jpg", 4, "Harley-Davidson", "Street 750");
-        motor[1] = new Motorcycle(2019, true, 85, "images/kawasaki_ninja400.jpg", 6, "Kawasaki", "Ninja 400");
-        motor[2] = new Motorcycle(2021, false, 80, "images/yamaha_yzfr3.jpg", 8, "Yamaha", "YZF-R3");
-        motor[3] = new Motorcycle(2022, true, 75, "images/ducati_panigalev2.jpg", 1, "Ducati", "Panigale V2");
-        motor[4] = new Motorcycle(2020, true, 86, "images/honda_cbr500r.jpg", 5, "Honda", "CBR500R");
+        motor[0] = new Motorcycle(2020, true, 90, "image/Motorcycle/Harley-Davidson Street 750 (1).jpg", 4, "Harley-Davidson", "Street 750");
+        motor[1] = new Motorcycle(2019, true, 85, "image/Motorcycle/Kawasaki Ninja 400 (1).jpg", 6, "Kawasaki", "Ninja 400");
+        motor[2] = new Motorcycle(2021, false, 80, "image/Motorcycle/Yamaha YZF-R3 (1).jpg", 8, "Yamaha", "YZF-R3");
+        motor[3] = new Motorcycle(2022, true, 75, "image/Motorcycle/Ducati Panigale V2 (1).jpg", 1, "Ducati", "Panigale V2");
+        motor[4] = new Motorcycle(2020, true, 86, "image/Motorcycle/HONDA CBR500R (1).jpg", 5, "Honda", "CBR500R");
 
-        trucks[0] = new Truck(2020, true, 200, "images/ford_f150.jpg", 10, "Ford", "F-150");
-        trucks[1] = new Truck(2021, true, 250, "images/chevrolet_silverado.jpg", 12, "Chevrolet", "Silverado");
-        trucks[2] = new Truck(2022, false, 280, "images/ram_1500.jpg", 15, "Ram", "1500");
-        trucks[3] = new Truck(2020, true, 200, "images/toyota_tundra.jpg", 3, "Toyota", "Tundra");
-        trucks[4] = new Truck(2021, true, 230, "images/gmc_sierra.jpg", 9, "GMC", "Sierra");
+        trucks[0] = new Truck(2020, true, 200, "image/Truck/FORD F-150 (1).jpg", 10, "Ford", "F-150");
+        trucks[1] = new Truck(2021, true, 250, "image/Truck/CHEVROLET SILVERADO (1).jpg", 12, "Chevrolet", "Silverado");
+        trucks[2] = new Truck(2022, false, 280, "image/Truck/RAM 1500 (1).jpg", 15, "Ram", "1500");
+        trucks[3] = new Truck(2020, true, 200, "image/Truck/TOYOTA TUNDRA (1).jpg", 3, "Toyota", "Tundra");
+        trucks[4] = new Truck(2021, true, 230, "image/Truck/GMC SIERRA (1).jpg", 9, "GMC", "Sierra");
 
         // Create the main frame
         JFrame frame = new JFrame("Vehicle Rental System");
@@ -64,6 +67,7 @@ public class MainMenu {
         // Create the center panel for scrolling images 
         // "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
 // Create the center panel for scrolling images
+// Create the center panel for scrolling images
 JPanel centerPanel = new JPanel(new BorderLayout());
 centerPanel.setBackground(Color.WHITE);
 
@@ -73,25 +77,24 @@ imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.X_AXIS));
 
 // Add images to the imagePanel with resizing
 String[] imagePaths = {
-        "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
+    "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
+    "image/kereta/Nissan Altima (1).jpg",
+    "image/kereta/toyota camry (1).jpg",
+    "image/kereta/ford focus (1).jpg"
 };
 
-// Define the desired image height and width
-int imageWidth = 1000;
-int imageHeight = 600 ;
+// Define the desired image width and height
+int imageWidth = 900;
+int imageHeight = 550;
 
-// Add images and duplicate them for seamless looping
+// Load and scale the initial images
 for (String path : imagePaths) {
-    ImageIcon originalIcon = new ImageIcon(path); // Load the original image
+    ImageIcon originalIcon = new ImageIcon(path);
     Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
     ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     JLabel imageLabel = new JLabel(scaledIcon);
     imagePanel.add(imageLabel);
-
-    // Duplicate the same image
-    JLabel duplicateImageLabel = new JLabel(scaledIcon);
-    imagePanel.add(duplicateImageLabel);
 }
 
 // Add the image panel to a scroll pane
@@ -104,22 +107,43 @@ scrollPane.setOpaque(false);
 // Add the scroll pane to the center panel
 centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-// Add scrolling animation (right to left)
+// Add scrolling animation (right to left) with changing images
 Timer timer = new Timer(30, new ActionListener() {
     int scrollPosition = 0;
+    int currentIndex = 0;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         scrollPosition++;
+
+        // If scrolling has covered the width of the current image, switch to the next image
         if (scrollPosition >= imageWidth) {
-            scrollPosition = 0; // Reset to start for seamless loop
+            scrollPosition = 0; // Reset the scroll position
+
+            // Update the image panel with the next image
+            imagePanel.removeAll(); // Clear the current images
+            currentIndex = (currentIndex + 1) % imagePaths.length; // Move to the next image
+            for (int i = 0; i < imagePaths.length; i++) {
+                String path = imagePaths[(currentIndex + i) % imagePaths.length]; // Circular indexing
+                ImageIcon originalIcon = new ImageIcon(path);
+                Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+                JLabel imageLabel = new JLabel(scaledIcon);
+                imagePanel.add(imageLabel);
+            }
+
+            imagePanel.revalidate(); // Refresh the image panel
+            imagePanel.repaint();   // Ensure the new images are displayed
         }
+
         scrollPane.getHorizontalScrollBar().setValue(scrollPosition);
     }
 });
 
 // Start the timer for animation
 timer.start();
+
   
 
 
@@ -223,21 +247,103 @@ timer.start();
 });
 
 
-        myOrderButton.addActionListener(new ActionListener() {
+JButton checkOrderButton = new JButton("Check Orders");
+// Check Orders Button
+// Check Orders Button
+checkOrderButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Debugging: Output the size of the order list
+        System.out.println("Order List Size: " + orderList.size());
+
+        // Create a dialog to display the orders
+        JDialog orderDialog = new JDialog(frame, "All Orders", true);
+        orderDialog.setSize(400, 300);
+        orderDialog.setLayout(new BorderLayout());
+
+        // Panel to display all orders
+        JPanel orderPanel = new JPanel();
+        orderPanel.setLayout(new BoxLayout(orderPanel, BoxLayout.Y_AXIS));
+
+        // Check if the order list is empty
+        if (orderList.isEmpty()) {
+            orderPanel.add(new JLabel("No orders placed yet."));
+        } else {
+            // Loop through the orderList and display each order
+            for (Order order : orderList) {
+                String orderDetails = "Order ID: " + order.getOrderId() + "\n" +
+                                      "Vehicle: " + order.getVehicle() + "\n" +
+                                      "Days: " + order.getDays() + "\n" +
+                                      "Total Price: RM" + order.getTotalPrice() + "\n\n";
+                orderPanel.add(new JLabel("<html>" + orderDetails.replace("\n", "<br>") + "</html>"));
+            }
+        }
+
+        // Scroll pane to handle long lists of orders
+        JScrollPane scrollPane = new JScrollPane(orderPanel);
+        orderDialog.add(scrollPane, BorderLayout.CENTER);
+
+        // Close button
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Logic to view my orders
-                JOptionPane.showMessageDialog(frame, "Viewing my orders...", "My Orders", JOptionPane.INFORMATION_MESSAGE);
+                orderDialog.dispose(); // Close the dialog
             }
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(closeButton);
+        orderDialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Set dialog properties and show it
+        orderDialog.setLocationRelativeTo(frame); // Center relative to the main frame
+        orderDialog.setVisible(true);
+    }
+});
+
+// Rent Now Button
+rentNowButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Create a dialog to display the rental form
+        JDialog rentalDialog = new JDialog(frame, "Rent Now", true);
+        rentalDialog.setSize(400, 300);
+        rentalDialog.setLayout(new BorderLayout());
+
+        // Add the rental form to the dialog
+        RentalForm rentalForm = new RentalForm(order -> {
+            // Debugging: Output the order being placed
+            System.out.println("Order placed: " + order.getOrderId() + ", Vehicle: " + order.getVehicle());
+
+            orderList.add(order); // Add the new order to the list
+
+            // Show success message
+            JOptionPane.showMessageDialog(frame, "Order placed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            rentalDialog.dispose(); // Close the dialog
         });
 
-        rentNowButton.addActionListener(new ActionListener() {
+        rentalDialog.add(rentalForm, BorderLayout.CENTER);
+
+        // Add a close button to the dialog
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Logic to rent a vehicle
-                JOptionPane.showMessageDialog(frame, "Renting a vehicle...", "Rent Now", JOptionPane.INFORMATION_MESSAGE);
+                rentalDialog.dispose(); // Close the dialog
             }
         });
+        buttonPanel.add(closeButton);
+        rentalDialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Set dialog properties and show it
+        rentalDialog.setLocationRelativeTo(frame); // Center relative to main frame
+        rentalDialog.setVisible(true);
+    }
+});
+
+
+        
 
         exitButton.addActionListener(new ActionListener() {
             @Override

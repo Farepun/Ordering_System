@@ -10,7 +10,7 @@ public class Truck extends Vehicle {
     }
 
     public Truck(int year, boolean isAvailable, int price, String imagePath, int Days, String brand, String model ) {
-        super();
+        super(year, isAvailable, price, imagePath, Days); // Pass values to the Vehicle constructor
         this.brand = brand;
         this.model = model;
     }

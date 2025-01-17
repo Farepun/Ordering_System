@@ -1,54 +1,34 @@
-import java.time.LocalDate;
+class Order {
+    private String orderId;
+    private String vehicle;
+    private int days;
+    private int totalPrice;
 
-public class Order {
-    private String OrderId;
-    private Customer customer;
-    private Vehicle vehicle;
-    private LocalDate rentalStart;
-    private LocalDate rentalEnd;
-    public Order(String orderId, Customer customer, Vehicle vehicle, LocalDate rentalStart, LocalDate rentalEnd) {
-        OrderId = orderId;
-        this.customer = customer;
+    public Order(String orderId, String vehicle, int days, int totalPrice) {
+        this.orderId = orderId;
         this.vehicle = vehicle;
-        this.rentalStart = rentalStart;
-        this.rentalEnd = rentalEnd;
-        vehicle.setAvailable(false);
+        this.days = days;
+        this.totalPrice = totalPrice;
     }
+
     public String getOrderId() {
-        return OrderId;
+        return orderId;
     }
-    public void setOrderId(String orderId) {
-        OrderId = orderId;
-    }
-    public Customer getCustomer() {
-        return customer;
-    }
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-    public Vehicle getVehicle() {
+
+    public String getVehicle() {
         return vehicle;
     }
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-    public LocalDate getRentalStart() {
-        return rentalStart;
-    }
-    public void setRentalStart(LocalDate rentalStart) {
-        this.rentalStart = rentalStart;
-    }
-    public LocalDate getRentalEnd() {
-        return rentalEnd;
-    }
-    public void setRentalEnd(LocalDate rentalEnd) {
-        this.rentalEnd = rentalEnd;
+
+    public int getDays() {
+        return days;
     }
 
-    public double RentCalculation(){
-        long days = java.time.temporal.ChronoUnit.DAYS.between(rentalStart, rentalEnd);
-        return days * vehicle.getPrice();
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Order ID: " + orderId + "\nVehicle: " + vehicle + "\nDays: " + days + "\nTotal Price: $" + totalPrice;
+    }
 }

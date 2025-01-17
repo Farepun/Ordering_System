@@ -1,14 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.function.Consumer;
 
 public class RentalForm extends JPanel {
     private JComboBox<String> vehicleComboBox;
     private JTextField daysField;
-    private JButton calculateButton;
+    private JButton calculateButton, placeOrderButton;
     private JLabel priceLabel;
 
-    public RentalForm() {
+    public RentalForm(Consumer<Order> orderCallback) {
         setLayout(new BorderLayout());
 
         // Panel to hold the form fields
@@ -27,6 +28,7 @@ public class RentalForm extends JPanel {
 
         // Button to calculate the rental price
         calculateButton = new JButton("Calculate Price");
+        placeOrderButton = new JButton("Place Order");
 
         // Label to display the calculated price
         priceLabel = new JLabel("Total Price: $0", SwingConstants.CENTER);
@@ -37,7 +39,7 @@ public class RentalForm extends JPanel {
         formPanel.add(daysField);
         formPanel.add(new JLabel());  // Empty cell
         formPanel.add(calculateButton);
-        formPanel.add(new JLabel());  // Empty cell
+        formPanel.add(placeOrderButton);
         formPanel.add(priceLabel);
 
         add(formPanel, BorderLayout.CENTER);
@@ -55,6 +57,30 @@ public class RentalForm extends JPanel {
                     priceLabel.setText("Total Price: $" + totalPrice);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(RentalForm.this, "Please enter a valid number for days.");
+                }
+            }
+        });
+
+        // Place order button action
+        placeOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String selectedVehicle = (String) vehicleComboBox.getSelectedItem();
+                    int pricePerDay = Integer.parseInt(selectedVehicle.split(" - \\RM")[1].split(" per day")[0]);
+                    int days = Integer.parseInt(daysField.getText());
+                    int totalPrice = pricePerDay * days;
+
+                    Order order = new Order(
+                        "Order" + System.currentTimeMillis(),
+                        selectedVehicle.split(" - ")[0], // Extract vehicle name
+                        days,
+                        totalPrice
+                    );
+
+                    orderCallback.accept(order); // Pass the order to the callback
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(RentalForm.this, "Please enter valid input.");
                 }
             }
         });
