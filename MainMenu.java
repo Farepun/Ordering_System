@@ -279,7 +279,7 @@ public class MainMenu {
                         String orderDetails = "Order ID: " + order.getOrderId() + "\n" +
                                 "Vehicle: " + order.getVehicle() + "\n" +
                                 "Days: " + order.getDays() + "\n" +
-                                "Total Price: RM" + order.getTotalPrice() + "\n";
+                                "Total Price: $" + order.getTotalPrice() + "\n";
         
                         JTextArea orderTextArea = new JTextArea(orderDetails);
                         orderTextArea.setEditable(false);
