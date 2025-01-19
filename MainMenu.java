@@ -205,7 +205,7 @@ public class MainMenu {
                                     + "Brand: " + cars[i].getBrand() + "\n"
                                     + "Model: " + cars[i].getModel() + "\n"
                                     + "Year: " + cars[i].getYear() + "\n"
-                                    + "Price: RM" + cars[i].getPrice());
+                                    + "Price: $" + cars[i].getPrice());
                             break;
                         }
                     }
@@ -218,7 +218,7 @@ public class MainMenu {
                                     + "Brand: " + motor[i].getBrand() + "\n"
                                     + "Model: " + motor[i].getModel() + "\n"
                                     + "Year: " + motor[i].getYear() + "\n"
-                                    + "Price: RM" + motor[i].getPrice());
+                                    + "Price: $" + motor[i].getPrice());
                             break;
                         }
                     }
@@ -231,7 +231,7 @@ public class MainMenu {
                                     + "Brand: " + trucks[i].getBrand() + "\n"
                                     + "Model: " + trucks[i].getModel() + "\n"
                                     + "Year: " + trucks[i].getYear() + "\n"
-                                    + "Price: RM" + trucks[i].getPrice());
+                                    + "Price: $" + trucks[i].getPrice());
                             break;
                         }
                     }
