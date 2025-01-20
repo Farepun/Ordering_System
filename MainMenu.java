@@ -12,21 +12,21 @@ public class MainMenu {
         // Show login screen
         LoginFrame loginFrame = new LoginFrame();
 
-        // Wait for login to succeed
+        // Wait for login 
         while (loginFrame.isVisible()) {
             try {
-                Thread.sleep(100); // Prevent busy waiting
+                Thread.sleep(100); 
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
 
-        // Check if login was successful
+        // Check if login  successful or not
         if (!loginFrame.isLoginSuccessful()) {
-            System.exit(0); // Exit if login failed
+            System.exit(0); 
         }
 
-        // Dummy data for cars, motorcycles, and trucks
+        // test data for cars, motorcycles, and trucks
         Car[] cars = new Car[5];
         Motorcycle[] motor = new Motorcycle[5];
         Truck[] trucks = new Truck[5];
@@ -52,13 +52,13 @@ public class MainMenu {
         trucks[3] = new Truck(2020, true, 200, "image/Truck/TOYOTA TUNDRA (1).jpg", 3, "Toyota", "Tundra");
         trucks[4] = new Truck(2021, true, 230, "image/Truck/GMC SIERRA (1).jpg", 9, "GMC", "Sierra");
 
-        // Create the main frame
+        // Create  main frame
         JFrame frame = new JFrame("Vehicle Rental System");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Create the top panel with the title and login button
+        // Create the top panel with  title and login button
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(Color.LIGHT_GRAY);
         JLabel titleLabel = new JLabel("Car Rental", SwingConstants.LEFT);
@@ -66,11 +66,8 @@ public class MainMenu {
 
         topPanel.add(titleLabel, BorderLayout.WEST);
 
-        // Create the center panel (can be left empty or used for other components)
-        // Create the center panel for scrolling images
-        // "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
-        // Create the center panel for scrolling images
-        // Create the center panel for scrolling images
+        
+        // Create the center panel for scrolling img
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(Color.WHITE);
 
@@ -78,7 +75,7 @@ public class MainMenu {
         JPanel imagePanel = new JPanel();
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.X_AXIS));
 
-        // Add images to the imagePanel with resizing
+        // Add images to panel & resizing
         String[] imagePaths = {
                 "image/2023.04.22-HONDA-FL5-CIVIC-TYPE-R-2023_1.jpg",
                 "image/kereta/Nissan Altima (1).jpg",
@@ -110,7 +107,7 @@ public class MainMenu {
         // Add the scroll pane to the center panel
         centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Add scrolling animation (right to left) with changing images
+        // Add scrolling animation for image left right
         Timer timer = new Timer(30, new ActionListener() {
             int scrollPosition = 0;
             int currentIndex = 0;
@@ -119,16 +116,16 @@ public class MainMenu {
             public void actionPerformed(ActionEvent e) {
                 scrollPosition++;
 
-                // If scrolling has covered the width of the current image, switch to the next
+                // if scrol over will go next page
                 // image
                 if (scrollPosition >= imageWidth) {
                     scrollPosition = 0; // Reset the scroll position
 
                     // Update the image panel with the next image
-                    imagePanel.removeAll(); // Clear the current images
-                    currentIndex = (currentIndex + 1) % imagePaths.length; // Move to the next image
+                    imagePanel.removeAll(); 
+                    currentIndex = (currentIndex + 1) % imagePaths.length; 
                     for (int i = 0; i < imagePaths.length; i++) {
-                        String path = imagePaths[(currentIndex + i) % imagePaths.length]; // Circular indexing
+                        String path = imagePaths[(currentIndex + i) % imagePaths.length]; 
                         ImageIcon originalIcon = new ImageIcon(path);
                         Image scaledImage = originalIcon.getImage().getScaledInstance(imageWidth, imageHeight,
                                 Image.SCALE_SMOOTH);
@@ -138,8 +135,8 @@ public class MainMenu {
                         imagePanel.add(imageLabel);
                     }
 
-                    imagePanel.revalidate(); // Refresh the image panel
-                    imagePanel.repaint(); // Ensure the new images are displayed
+                    imagePanel.revalidate();
+                    imagePanel.repaint(); 
                 }
 
                 scrollPane.getHorizontalScrollBar().setValue(scrollPosition);
@@ -302,7 +299,7 @@ public class MainMenu {
                 closeButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        orderDialog.dispose(); // Close the dialog
+                        orderDialog.dispose(); 
                     }
                 });
                 JPanel buttonPanel = new JPanel();
@@ -310,7 +307,7 @@ public class MainMenu {
                 orderDialog.add(buttonPanel, BorderLayout.SOUTH);
         
                 // Set dialog properties and show it
-                orderDialog.setLocationRelativeTo(frame); // Center relative to the main frame
+                orderDialog.setLocationRelativeTo(frame); 
                 orderDialog.setVisible(true);
             }
         });
@@ -327,33 +324,33 @@ public class MainMenu {
 
                 // Add the rental form to the dialog
                 RentalForm rentalForm = new RentalForm(order -> {
-                    // Debugging: Output the order being placed
+                    
                     System.out.println("Order placed: " + order.getOrderId() + ", Vehicle: " + order.getVehicle());
 
-                    orderList.add(order); // Add the new order to the list
+                    orderList.add(order); 
 
                     // Show success message
                     JOptionPane.showMessageDialog(frame, "Order placed successfully!", "Success",
                             JOptionPane.INFORMATION_MESSAGE);
-                    rentalDialog.dispose(); // Close the dialog
+                    rentalDialog.dispose(); 
                 });
 
                 rentalDialog.add(rentalForm, BorderLayout.CENTER);
 
-                // Add a close button to the dialog
+                // Add a close button to  dialog
                 JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
                 JButton closeButton = new JButton("Close");
                 closeButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        rentalDialog.dispose(); // Close the dialog
+                        rentalDialog.dispose();
                     }
                 });
                 buttonPanel.add(closeButton);
                 rentalDialog.add(buttonPanel, BorderLayout.SOUTH);
 
-                // Set dialog properties and show it
-                rentalDialog.setLocationRelativeTo(frame); // Center relative to main frame
+                // Set dialog properties & show it
+                rentalDialog.setLocationRelativeTo(frame); 
                 rentalDialog.setVisible(true);
             }
         });
@@ -361,7 +358,7 @@ public class MainMenu {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Exit the application
+                
                 System.exit(0);
             }
         });
@@ -372,12 +369,12 @@ public class MainMenu {
         southPanel.add(rentNowButton);
         southPanel.add(exitButton);
 
-        // Add panels to the frame
+        // Add panels to  frame
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(centerPanel, BorderLayout.CENTER);
         frame.add(southPanel, BorderLayout.SOUTH);
 
-        // Set frame visibility
+        // Set frame visible
         frame.setVisible(true);
     }
 }
