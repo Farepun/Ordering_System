@@ -1,0 +1,15 @@
+Order ID: Order1737465280862
+Vehicle: Toyota Camry
+Days: 2
+Total Price: $300
+----------
+Order ID: Order1737465311194
+Vehicle: Ford F-150
+Days: 3
+Total Price: $600
+----------
+Order ID: Order1737465384376
+Vehicle: Ford Focus
+Days: 2
+Total Price: $200
+----------
