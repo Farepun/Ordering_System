@@ -1,0 +1,5 @@
+12345678, John Doe, 123 Main Street, A12345, 555-1234, johndoe, pass123
+87654321, Jane Smith, 456 Elm Street, B67890, 555-5678, janesmith, secure456
+11223344, Alex Johnson, 789 Oak Avenue, C11223, 555-9876, alexj, mypassword
+44332211, Emma Brown, 321 Pine Lane, D44556, 555-4321, emmab, strong789
+99887766, Michael Lee, 654 Cedar Road, E77889, 555-8765, michaell, pass789
