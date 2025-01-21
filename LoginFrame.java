@@ -3,6 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class LoginFrame extends JFrame implements ActionListener {
 
@@ -12,11 +13,16 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JButton btnLogin;
     private Container cp;
     private boolean loginSuccess;
+    private List<Customer> customers;
+    private Customer loggedInUser;  // Store logged-in user
 
     public LoginFrame() {
         super.setTitle("Please Login");
         super.setSize(300, 150);
         cp = super.getContentPane();
+
+        // Load customer data
+        customers = Customer.loadCustomersFromFile("Customer_Details.txt");
 
         prepareCenterPanel();
         prepareSouthPanel();
@@ -61,6 +67,11 @@ public class LoginFrame extends JFrame implements ActionListener {
         return loginSuccess;
     }
 
+    // New method to get the logged-in user
+    public Customer getLoggedInUser() {
+        return loggedInUser;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnLogin) {
@@ -68,7 +79,17 @@ public class LoginFrame extends JFrame implements ActionListener {
             char[] passwordArr = txtPassword.getPassword();
             String password = String.valueOf(passwordArr);
 
-            if (username.equals("admin") && password.equals("secret")) {
+            // Validate credentials
+            boolean found = false;
+            for (Customer customer : customers) {
+                if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
+                    found = true;
+                    loggedInUser = customer;  // Store the logged-in user
+                    break;
+                }
+            }
+
+            if (found) {
                 loginSuccess = true;
                 JOptionPane.showMessageDialog(this, "Login Success!");
                 this.dispose(); // Close the login frame
