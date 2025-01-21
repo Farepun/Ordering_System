@@ -14,7 +14,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     private Container cp;
     private boolean loginSuccess;
     private List<Customer> customers;
-    private Customer loggedInUser;  // Store logged-in user
+    
 
     public LoginFrame() {
         super.setTitle("Please Login");
@@ -67,11 +67,6 @@ public class LoginFrame extends JFrame implements ActionListener {
         return loginSuccess;
     }
 
-    // New method to get the logged-in user
-    public Customer getLoggedInUser() {
-        return loggedInUser;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnLogin) {
@@ -84,7 +79,6 @@ public class LoginFrame extends JFrame implements ActionListener {
             for (Customer customer : customers) {
                 if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
                     found = true;
-                    loggedInUser = customer;  // Store the logged-in user
                     break;
                 }
             }
