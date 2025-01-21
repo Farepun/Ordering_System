@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 public class RentalForm extends JPanel {
@@ -107,6 +110,25 @@ public class RentalForm extends JPanel {
                             days,
                             totalPrice);
 
+                    // Save order details to file
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("order_details.txt", true))) {
+                        writer.write("Order ID: " + order.getOrderId());
+                        writer.newLine();
+                        writer.write("Vehicle: " + order.getVehicle());
+                        writer.newLine();
+                        writer.write("Days: " + order.getDays());
+                        writer.newLine();
+                        writer.write("Total Price: $" + order.getTotalPrice());
+                        writer.newLine();
+                        writer.write("----------");
+                        writer.newLine();
+                    } catch (IOException ioEx) {
+                        JOptionPane.showMessageDialog(RentalForm.this, "Error saving the order details to file.", 
+                                "File Error", JOptionPane.ERROR_MESSAGE);
+                        ioEx.printStackTrace();
+                    }
+
+                    // Pass the order to the callback
                     orderCallback.accept(order); // Pass the order to the callback
                     JOptionPane.showMessageDialog(RentalForm.this, "Order placed successfully!", "Success",
                             JOptionPane.INFORMATION_MESSAGE);
